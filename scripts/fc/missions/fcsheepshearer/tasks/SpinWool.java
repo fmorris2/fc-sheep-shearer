@@ -44,7 +44,7 @@ public class SpinWool extends Task
 	public SpinWool()
 	{
 		super();
-		reaction = new ABC2Reaction("spinReaction", false, ESTIMATED_SPIN_WAIT);
+		reaction = new ABC2Reaction(false, ESTIMATED_SPIN_WAIT);
 		Vars.get().add("spinReaction", reaction);
 		
 	}

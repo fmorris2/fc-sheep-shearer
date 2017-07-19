@@ -1,6 +1,5 @@
 package scripts.fc.missions.fcsheepshearer.tasks;
 
-import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GroundItems;
@@ -8,11 +7,9 @@ import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Player;
 
 import scripts.fc.api.abc.ABC2Reaction;
-import scripts.fc.api.abc.PersistantABCUtil;
 import scripts.fc.api.generic.FCConditions;
 import scripts.fc.api.interaction.impl.grounditems.PickUpGroundItem;
 import scripts.fc.api.travel.Travel;
-import scripts.fc.framework.data.Vars;
 import scripts.fc.framework.task.Task;
 import scripts.fc.missions.fcsheepshearer.FCSheepShearer;
 import scripts.fc.missions.fcsheepshearer.data.QuestStage;
@@ -25,7 +22,7 @@ public class GrabShears extends Task
 	private final int SHEARS_ID = 1735;
 	private final int DISTANCE_THRESHOLD = 2;
 	
-	private ABC2Reaction reaction = new ABC2Reaction("grabShearsReaction", false, EST_WAIT_TIME);
+	private ABC2Reaction reaction = new ABC2Reaction(false, EST_WAIT_TIME);
 	
 	@Override
 	public boolean execute()
