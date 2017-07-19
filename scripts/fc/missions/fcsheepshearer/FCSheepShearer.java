@@ -52,9 +52,7 @@ public class FCSheepShearer extends MissionManager implements Mission
 
 	@Override
 	public void execute()
-	{
-		addTask(new ShearSheep(fcScript));
-		
+	{	
 		if(Login.getLoginState() != STATE.INGAME)
 		{
 			General.println("Waiting for login...");
@@ -69,7 +67,7 @@ public class FCSheepShearer extends MissionManager implements Mission
 	{
 		return new LinkedList<Task>(Arrays.asList(
 				new InventoryCheck(), new StartQuest(), new GrabShears(), 
-				new SpinWool(), new CompleteQuest()));
+				new ShearSheep(), new SpinWool(), new CompleteQuest()));
 	}
 
 	@Override

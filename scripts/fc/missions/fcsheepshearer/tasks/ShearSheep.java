@@ -3,6 +3,7 @@ package scripts.fc.missions.fcsheepshearer.tasks;
 import org.tribot.api.Timing;
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api.types.generic.Filter;
+import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
@@ -20,7 +21,7 @@ import scripts.fc.api.interaction.impl.npcs.ClickNpc;
 import scripts.fc.api.interaction.impl.objects.ClickObject;
 import scripts.fc.api.travel.Travel;
 import scripts.fc.api.wrappers.FCTiming;
-import scripts.fc.framework.script.FCScript;
+import scripts.fc.framework.data.Vars;
 import scripts.fc.framework.task.AnticipativeTask;
 import scripts.fc.framework.task.PredictableInteraction;
 import scripts.fc.framework.task.Task;
@@ -38,14 +39,8 @@ public class ShearSheep extends AnticipativeTask implements PredictableInteracti
 	private final Filter<RSNPC> CURRENT_SHEEP_FILTER = currentSheepFilter();
 	private final Positionable STILE_TILE = new RSTile(3197, 3278, 0);
 	
-	private FCScript script;
 	private RSNPC currentSheep;
 	
-	public ShearSheep(FCScript script)
-	{
-		super();
-		this.script = script;
-	}
 	@Override
 	public boolean execute()
 	{
@@ -100,7 +95,8 @@ public class ShearSheep extends AnticipativeTask implements PredictableInteracti
 		
 		if(npcs.length > 0)
 		{
-			currentSheep = ABC2Helper.shouldUseClosest(script.abc, npcs) ? npcs[0] : npcs[1];
+			ABCUtil abc = Vars.get().get("abc");
+			currentSheep = ABC2Helper.shouldUseClosest(abc, npcs) ? npcs[0] : npcs[1];
 			return new ClickNpc("Shear", currentSheep);
 		}
 		

@@ -15,10 +15,12 @@ import org.tribot.api2007.types.RSArea;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.fc.api.abc.PersistantABCUtil;
 import scripts.fc.api.generic.FCConditions;
 import scripts.fc.api.interaction.impl.objects.ClickObject;
 import scripts.fc.api.travel.FCTeleporting;
 import scripts.fc.api.travel.Travel;
+import scripts.fc.framework.data.Vars;
 import scripts.fc.framework.task.Task;
 import scripts.fc.missions.fcsheepshearer.FCSheepShearer;
 import scripts.fc.missions.fcsheepshearer.data.QuestStage;
@@ -34,6 +36,7 @@ public class SpinWool extends Task
 	private final int INTERFACE_CHILD = 100;
 	private final int ANIMATION_ID = 894;
 	private final long ANIMATION_TIMEOUT = 2000;
+	private final int ESTIMATED_SPIN_WAIT = 50000;
 	
 	private long lastAnimation;
 	
@@ -76,23 +79,37 @@ public class SpinWool extends Task
 	
 	private void spinWool()
 	{
-		if(Player.getAnimation() == ANIMATION_ID)
-			lastAnimation = Timing.currentTimeMillis();
-		else if(Timing.timeFromMark(lastAnimation) > ANIMATION_TIMEOUT)
+		if(Timing.timeFromMark(lastAnimation) > ANIMATION_TIMEOUT) //not spinning
 		{
-			RSInterface inter = Interfaces.get(INTERFACE_MASTER, INTERFACE_CHILD);
+			handleWheel();
+		}
+		else //spinning
+		{
+			((PersistantABCUtil)(Vars.get().get("abc2"))).performTimedActions();
 			
-			if(inter == null || inter.isHidden())
+			if(Player.getAnimation() == ANIMATION_ID)
+				lastAnimation = Timing.currentTimeMillis();
+		}
+	}
+	
+	private void handleWheel()
+	{
+		RSInterface inter = Interfaces.get(INTERFACE_MASTER, INTERFACE_CHILD);
+		
+		if(inter == null || inter.isHidden())
+		{
+			if(new ClickObject("Spin", "Spinning wheel", 5).execute())
+				Timing.waitCondition(FCConditions.interfaceUp(INTERFACE_MASTER), 3000);
+		}
+		else if(inter.click("Make X") && Timing.waitCondition(FCConditions.ENTER_AMOUNT_CONDITION, 2000))
+		{
+			Keyboard.typeSend(""+Inventory.getCount("Wool"));
+			if(Timing.waitCondition(FCConditions.animationChanged(-1), 2400))
 			{
-				if(new ClickObject("Spin", "Spinning wheel", 5).execute())
-					Timing.waitCondition(FCConditions.interfaceUp(INTERFACE_MASTER), 3000);
-			}
-			else if(inter.click("Make X") && Timing.waitCondition(FCConditions.ENTER_AMOUNT_CONDITION, 2000))
-			{
-				Keyboard.typeString(""+Inventory.getCount("Wool"));
-				General.sleep(300, 800);
-				Keyboard.pressEnter();
-				Timing.waitCondition(FCConditions.animationChanged(-1), 2000);
+				PersistantABCUtil abc2 = Vars.get().get("abc2");
+				lastAnimation = Timing.currentTimeMillis();
+				Vars.get().addOrUpdate("spinStartTime", Timing.currentTimeMillis());
+				abc2.generateTrackers(abc2.generateBitFlags(ESTIMATED_SPIN_WAIT));
 			}
 		}
 	}
