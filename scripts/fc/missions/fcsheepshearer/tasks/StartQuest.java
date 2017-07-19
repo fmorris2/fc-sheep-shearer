@@ -25,8 +25,11 @@ public class StartQuest extends Task
 			Travel.webWalkTo(FCSheepShearer.FARMER_TILE);
 		}
 		else
-			new NpcDialogue("Talk-to", "Fred the Farmer", 10, 0, 0, 0, 0).execute();
-		
+		{
+			NpcDialogue dialogue = new NpcDialogue("Talk-to", "Fred the Farmer", 10, 0, 0, 0, 0);
+			dialogue.setCheckPath(true);
+			dialogue.execute();
+		}
 		return false;
 	}
 
