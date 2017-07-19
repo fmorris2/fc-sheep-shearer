@@ -15,7 +15,7 @@ import org.tribot.api2007.types.RSArea;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.fc.api.abc.PersistantABCUtil;
+import scripts.fc.api.abc.ABC2Reaction;
 import scripts.fc.api.generic.FCConditions;
 import scripts.fc.api.interaction.impl.objects.ClickObject;
 import scripts.fc.api.travel.FCTeleporting;
@@ -35,10 +35,19 @@ public class SpinWool extends Task
 	private final int INTERFACE_MASTER = 459;
 	private final int INTERFACE_CHILD = 100;
 	private final int ANIMATION_ID = 894;
-	private final long ANIMATION_TIMEOUT = 2000;
-	private final int ESTIMATED_SPIN_WAIT = 50000;
+	private final long ANIMATION_TIMEOUT = 2400;
+	private final int ESTIMATED_SPIN_WAIT = 40000;
 	
 	private long lastAnimation;
+	private ABC2Reaction reaction;
+	
+	public SpinWool()
+	{
+		super();
+		reaction = new ABC2Reaction("spinReaction", false, ESTIMATED_SPIN_WAIT);
+		Vars.get().add("spinReaction", reaction);
+		
+	}
 	
 	@Override
 	public boolean execute()
@@ -85,8 +94,7 @@ public class SpinWool extends Task
 		}
 		else //spinning
 		{
-			((PersistantABCUtil)(Vars.get().get("abc2"))).performTimedActions();
-			
+			reaction.start();
 			if(Player.getAnimation() == ANIMATION_ID)
 				lastAnimation = Timing.currentTimeMillis();
 		}
@@ -105,12 +113,7 @@ public class SpinWool extends Task
 		{
 			Keyboard.typeSend(""+Inventory.getCount("Wool"));
 			if(Timing.waitCondition(FCConditions.animationChanged(-1), 2400))
-			{
-				PersistantABCUtil abc2 = Vars.get().get("abc2");
 				lastAnimation = Timing.currentTimeMillis();
-				Vars.get().addOrUpdate("spinStartTime", Timing.currentTimeMillis());
-				abc2.generateTrackers(abc2.generateBitFlags(ESTIMATED_SPIN_WAIT));
-			}
 		}
 	}
 
