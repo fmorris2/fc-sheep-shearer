@@ -61,7 +61,7 @@ public class SpinWool extends Task
 		else if(!Combat.isUnderAttack() && ShearSheep.SHEEP_PEN.contains(Player.getPosition()) 
 				&& (!SHOULD_TELEPORT || !FCTeleporting.homeTeleport()))
 			Travel.webWalkTo(WHEEL_TILE);
-		else if(Player.getPosition().distanceTo(WHEEL_TILE) > 1)
+		else if(Player.getPosition().distanceTo(WHEEL_TILE) > 3)
 		{
 			GameTab.open(TABS.INVENTORY);
 			Travel.webWalkTo(WHEEL_TILE);
@@ -106,7 +106,9 @@ public class SpinWool extends Task
 		
 		if(inter == null || inter.isHidden())
 		{
-			if(new ClickObject("Spin", "Spinning wheel", 5).execute())
+			ClickObject clickWheel = new ClickObject("Spin", "Spinning wheel", 6);
+			clickWheel.setCheckPath(true);
+			if(clickWheel.execute())
 				Timing.waitCondition(FCConditions.interfaceUp(INTERFACE_MASTER), 3000);
 		}
 		else if(inter.click("Make X") && Timing.waitCondition(FCConditions.ENTER_AMOUNT_CONDITION, 2000))
