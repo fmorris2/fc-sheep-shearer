@@ -2,7 +2,6 @@ package scripts.fc.missions.fcsheepshearer.tasks;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Combat;
 import org.tribot.api2007.Game;
@@ -33,7 +32,7 @@ public class SpinWool extends Task
 	private final Positionable WHEEL_TILE = new RSTile(3209, 3213, 1);
 	private final boolean SHOULD_TELEPORT = General.random(0, 1) == 0;
 	private final int INTERFACE_MASTER = 459;
-	private final int INTERFACE_CHILD = 100;
+	private final int INTERFACE_CHILD = 3;
 	private final int ANIMATION_ID = 894;
 	private final long ANIMATION_TIMEOUT = 2400;
 	private final int ESTIMATED_SPIN_WAIT = 40000;
@@ -111,11 +110,9 @@ public class SpinWool extends Task
 			if(clickWheel.execute())
 				Timing.waitCondition(FCConditions.interfaceUp(INTERFACE_MASTER), 3000);
 		}
-		else if(inter.click("Make X") && Timing.waitCondition(FCConditions.ENTER_AMOUNT_CONDITION, 2000))
+		else if(inter.click("Spin-All") && Timing.waitCondition(FCConditions.animationChanged(-1), 2400))
 		{
-			Keyboard.typeSend(""+Inventory.getCount("Wool"));
-			if(Timing.waitCondition(FCConditions.animationChanged(-1), 2400))
-				lastAnimation = Timing.currentTimeMillis();
+			lastAnimation = Timing.currentTimeMillis();
 		}
 	}
 
