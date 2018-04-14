@@ -2,7 +2,7 @@
 
 ## Overview
 Script written for the [TRiBot](https://tribot.org/forums/) community to complete the [Sheep Shearer](http://oldschoolrunescape.wikia.com/wiki/Sheep_Shearer) quest on
-Old School Runescape (OSRS). This is a submodule of the main [FC Questing](https://github.com/fmorris2/fc-questing) script.
+[Old School Runescape](https://oldschool.runescape.com/) (OSRS). This is a submodule of the main [FC Questing](https://github.com/fmorris2/fc-questing) script.
 
 ## Features
 - Start anywhere in the game world
