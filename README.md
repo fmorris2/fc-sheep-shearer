@@ -7,5 +7,5 @@ Script written for the [TRiBot](https://tribot.org/forums/) community to complet
 ## Features
 - Start anywhere in the game world
 - No materials needed! The script will gather everything it needs
-- ABC2L10 (Anti-Ban Compliance 2 Level 10)
+- [ABC2L10](https://tribot.org/forums/topic/60719-tribot-release-9300_0-abc2/) (Anti-Ban Compliance 2 Level 10)
 - Efficient and fast quest completion
