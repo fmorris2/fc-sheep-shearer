@@ -10,8 +10,8 @@ import org.tribot.api2007.Login;
 import org.tribot.api2007.Login.STATE;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.fc.framework.mission.Mission;
 import scripts.fc.framework.mission.MissionManager;
+import scripts.fc.framework.quest.QuestMission;
 import scripts.fc.framework.script.FCMissionScript;
 import scripts.fc.framework.task.Task;
 import scripts.fc.missions.fcsheepshearer.data.QuestStage;
@@ -22,7 +22,7 @@ import scripts.fc.missions.fcsheepshearer.tasks.ShearSheep;
 import scripts.fc.missions.fcsheepshearer.tasks.SpinWool;
 import scripts.fc.missions.fcsheepshearer.tasks.StartQuest;
 
-public class FCSheepShearer extends MissionManager implements Mission
+public class FCSheepShearer extends MissionManager implements QuestMission
 {
 	public static final int QUEST_SETTING_INDEX = 179;
 	public static final Positionable FARMER_TILE = new RSTile(3190, 3273, 0);
@@ -90,6 +90,16 @@ public class FCSheepShearer extends MissionManager implements Mission
 	@Override
 	public void resetStatistics()
 	{
+	}
+
+	@Override
+	public boolean canStart() {
+		return true;
+	}
+
+	@Override
+	public int getQuestPointReward() {
+		return 1;
 	}
 
 }
